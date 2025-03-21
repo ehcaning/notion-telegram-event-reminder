@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@notionhq/client": "^2.3.0",
+    "axios": "^1.8.4",
+    "lodash-es": "^4.17.21"
+  }
+}
