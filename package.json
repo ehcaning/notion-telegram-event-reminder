@@ -1,8 +1,11 @@
 {
-  "type": "module",
-  "dependencies": {
-    "@notionhq/client": "^2.3.0",
-    "axios": "^1.8.4",
-    "lodash-es": "^4.17.21"
-  }
+	"type": "module",
+	"scripts": {
+		"zip": "zip -r notion-automation.zip node_modules *.js *.json"
+	},
+	"dependencies": {
+		"@notionhq/client": "^2.3.0",
+		"axios": "^1.8.4",
+		"lodash-es": "^4.17.21"
+	}
 }

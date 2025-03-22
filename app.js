@@ -27,12 +27,12 @@ async function processEvents(handler) {
 /**
  * Main function to process all Notion event handlers.
  */
-async function main() {
+export async function run() {
 	const handlers = [new notion.Recurring(), new notion.Upcoming()];
 
 	await Promise.all(handlers.map(handler => processEvents(handler)));
 }
 
-main().catch(error => {
+run().catch(error => {
 	console.error('Unexpected error in the application:', error);
 });

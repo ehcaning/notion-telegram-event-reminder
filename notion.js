@@ -7,7 +7,6 @@ const notion = new Client({
 	logLevel: LogLevel.DEBUG,
 });
 
-// Constants for property names
 const PROPERTIES = {
 	RECURRING: 'Recurring',
 	DAYS_RECURRING: 'Days Recurring',
@@ -16,18 +15,12 @@ const PROPERTIES = {
 	DAYS: 'Days',
 	PAST: 'Past',
 };
+const DEFAULT_EMOJI = '👉';
 
 /**
  * Base class for interacting with Notion events.
  */
 class NotionEventBase {
-	/**
-	 * @param {string} databaseId - The ID of the Notion database.
-	 */
-	constructor(databaseId) {
-		this.databaseId = databaseId;
-	}
-
 	/**
 	 * Fetches events from the Notion database.
 	 * @param {Object} filter - The filter object for querying the database.
@@ -37,7 +30,7 @@ class NotionEventBase {
 	async getEvents(filter, sorts) {
 		try {
 			return await notion.databases.query({
-				database_id: this.databaseId,
+				database_id: config.NOTION_DATABASE_ID,
 				filter,
 				sorts,
 			});
@@ -69,15 +62,15 @@ class NotionEventBase {
 	 * Generates a message summarizing the events.
 	 * @param {Array<Object>} events - The list of events to include in the message.
 	 * @param {string} daysProperty - The property name used to calculate days.
-	 * @param {string} emojiFallback - The fallback emoji to use if an event has no icon.
+	 * @param {string} header - Message header.
 	 * @returns {string} The formatted message string.
 	 */
-	getMessage(events, daysProperty, emojiFallback) {
-		let msg = `⏰ *Events:*\n`;
+	getMessage(events, daysProperty, header) {
+		let msg = `${header}\n`;
 		events.forEach(event => {
 			const name = event.properties[PROPERTIES.NAME]?.title[0]?.plain_text ?? 'Unnamed Event';
 			const daysTill = event.properties[daysProperty]?.formula?.number ?? '?';
-			const emoji = event.icon?.emoji ?? emojiFallback;
+			const emoji = event.icon?.emoji ?? DEFAULT_EMOJI;
 
 			msg += `\n${emoji} *${name}* is in \`${daysTill}\` days.`;
 		});
@@ -90,12 +83,7 @@ class NotionEventBase {
  * Extends the NotionEventBase class.
  */
 export class Recurring extends NotionEventBase {
-	/**
-	 * Initializes the Recurring class with the database ID from the config.
-	 */
-	constructor() {
-		super(config.NOTION_DATABASE_ID);
-	}
+	header = '🔄 *Recurring Events*';
 
 	/**
 	 * Fetches recurring events from the Notion database.
@@ -126,7 +114,7 @@ export class Recurring extends NotionEventBase {
 	 * @returns {string} The formatted message string.
 	 */
 	getMessage(events) {
-		return super.getMessage(events, PROPERTIES.DAYS_RECURRING, '👉');
+		return super.getMessage(events, PROPERTIES.DAYS_RECURRING, this.header);
 	}
 }
 
@@ -135,6 +123,7 @@ export class Recurring extends NotionEventBase {
  * Extends the NotionEventBase class.
  */
 export class Upcoming extends NotionEventBase {
+	header = '📅 *Upcoming Events*';
 	/**
 	 * Initializes the Upcoming class with the database ID from the config.
 	 */
@@ -171,6 +160,6 @@ export class Upcoming extends NotionEventBase {
 	 * @returns {string} The formatted message string.
 	 */
 	getMessage(events) {
-		return super.getMessage(events, PROPERTIES.DAYS, '👉');
+		return super.getMessage(events, PROPERTIES.DAYS, this.header);
 	}
 }
