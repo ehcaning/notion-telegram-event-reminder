@@ -1,5 +1,5 @@
 import { Client, LogLevel } from '@notionhq/client';
-import * as _ from 'lodash-es';
+import { isArray } from 'lodash-es';
 import config from './config.js';
 
 const notion = new Client({
@@ -61,7 +61,7 @@ class NotionEventBase {
 			const remindInDays = el.properties[PROPERTIES.REMIND_IN]?.rich_text[0]?.plain_text
 				?.split(',')
 				?.map(e => +e);
-			return _.isArray(remindInDays) && remindInDays.includes(daysTill);
+			return isArray(remindInDays) && remindInDays.includes(daysTill);
 		});
 	}
 
