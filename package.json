@@ -1,9 +1,11 @@
 {
 	"type": "module",
 	"scripts": {
-		"zip": "zip -r notion-automation.zip node_modules *.js *.json"
+		"zip": "zip -r notion-automation.zip node_modules *.js *.json",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
 	},
 	"dependencies": {
+		"@aws-sdk/client-secrets-manager": "^3.772.0",
 		"@notionhq/client": "^2.3.0",
 		"axios": "^1.8.4",
 		"lodash-es": "^4.17.21"
