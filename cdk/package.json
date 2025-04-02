@@ -11,6 +11,7 @@
 		"load-secrets": "node scripts/load-env-to-secret.js"
 	},
 	"devDependencies": {
+		"@aws-sdk/client-secrets-manager": "^3.777.0",
 		"@types/node": "22.14.0",
 		"aws-cdk": "2.1007.0",
 		"aws-cdk-lib": "^2.80.0",
