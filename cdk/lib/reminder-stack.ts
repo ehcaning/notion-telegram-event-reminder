@@ -7,16 +7,25 @@ import { Duration } from 'aws-cdk-lib';
 import * as path from 'path';
 
 export class ReminderStack extends cdk.Stack {
-	public readonly secret: secretsmanager.Secret;
+	public readonly secret: secretsmanager.ISecret;
 
 	constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
-		// Create the secret
-		this.secret = new secretsmanager.Secret(this, 'ReminderSecrets', {
-			secretName: 'lambda/notion-telegram-event-reminder',
-			description: 'Secrets for Notion Telegram Event Reminder',
-		});
+		// Try to reference an existing secret
+		this.secret = secretsmanager.Secret.fromSecretNameV2(
+			this,
+			'ExistingReminderSecrets',
+			'lambda/notion-telegram-event-reminder'
+		);
+
+		// If the secret doesn't exist, create a new one
+		if (!this.secret) {
+			this.secret = new secretsmanager.Secret(this, 'ReminderSecrets', {
+				secretName: 'lambda/notion-telegram-event-reminder',
+				description: 'Secrets for Notion Telegram Event Reminder',
+			});
+		}
 
 		// Create the Lambda function
 		const reminderFunction = new lambda.Function(this, 'ReminderFunction', {
