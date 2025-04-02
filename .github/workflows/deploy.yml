@@ -18,6 +18,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Install dependencies (CDK)
+        run: npm install
         working-directory: cdk
 
       - name: Configure AWS credentials
