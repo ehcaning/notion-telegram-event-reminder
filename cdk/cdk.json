@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node --prefer-ts-exts --experimental-specifier-resolution=node bin/app.ts"
+}

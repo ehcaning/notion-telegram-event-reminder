@@ -1,0 +1,21 @@
+{
+	"name": "notion-telegram-event-reminder-cdk",
+	"version": "1.0.0",
+	"author": {
+		"name": "Ehsan Seyedi"
+	},
+	"type": "commonjs",
+	"scripts": {
+		"build": "tsc",
+		"cdk": "cdk",
+		"load-secrets": "node scripts/load-env-to-secret.js"
+	},
+	"devDependencies": {
+		"@types/node": "22.14.0",
+		"aws-cdk": "2.1007.0",
+		"aws-cdk-lib": "^2.80.0",
+		"ts-jest": "^29.2.5",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.2"
+	}
+}
