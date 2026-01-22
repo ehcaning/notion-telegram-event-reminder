@@ -16,6 +16,6 @@
 		"@aws-sdk/client-secrets-manager": "^3.777.0",
 		"@notionhq/client": "^2.3.0",
 		"axios": "^1.8.4",
-		"lodash-es": "^4.17.21"
+		"lodash-es": "^4.17.23"
 	}
 }
