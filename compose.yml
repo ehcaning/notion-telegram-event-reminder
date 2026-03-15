@@ -1,0 +1,7 @@
+services:
+  notion-telegram-event-reminder:
+    image: ghcr.io/ehcaning/notion-telegram-event-reminder:latest
+    container_name: notion-telegram-event-reminder
+    env_file:
+      - .env
+    restart: unless-stopped
