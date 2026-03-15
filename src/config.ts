@@ -1,0 +1,45 @@
+/**
+ * Configuration module for Notion-Telegram Event Reminder
+ * Loads configuration from environment variables
+ */
+
+const requiredKeys = ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'NOTION_TOKEN', 'NOTION_DATABASE_ID'];
+
+interface Config {
+  TELEGRAM_BOT_TOKEN: string;
+  TELEGRAM_CHAT_ID: string;
+  NOTION_TOKEN: string;
+  NOTION_DATABASE_ID: string;
+  DEBUG?: boolean;
+}
+
+/**
+ * Validates that all required configuration keys are present
+ * @param config Configuration object to validate
+ * @returns Validated configuration object
+ * @throws Error if required keys are missing
+ */
+function validateConfig(config: Record<string, string | undefined>): Config {
+  const missingKeys = requiredKeys.filter(key => !config[key]);
+  if (missingKeys.length > 0) {
+    throw new Error(`Missing required configuration: ${missingKeys.join(', ')}`);
+  }
+
+  return {
+    TELEGRAM_BOT_TOKEN: config.TELEGRAM_BOT_TOKEN!,
+    TELEGRAM_CHAT_ID: config.TELEGRAM_CHAT_ID!,
+    NOTION_TOKEN: config.NOTION_TOKEN!,
+    NOTION_DATABASE_ID: config.NOTION_DATABASE_ID!,
+    DEBUG: config.DEBUG === 'true',
+  };
+}
+
+/**
+ * Load configuration from environment variables
+ */
+function loadConfig(): Config {
+  // Support .env file loading in Bun (Bun automatically loads .env files)
+  return validateConfig(process.env as Record<string, string | undefined>);
+}
+
+export default loadConfig();

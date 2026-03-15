@@ -1,21 +1,22 @@
 {
-	"name": "notion-telegram-event-reminder",
-	"version": "1.0.0",
-	"author": {
-		"name": "Ehsan Seyedi"
-	},
-	"type": "module",
-	"scripts": {
-		"zip": "zip -r notion-automation.zip node_modules *.js *.json",
-		"build": "tsc",
-		"watch": "tsc -w",
-		"cdk": "cdk",
-		"load-secrets": "node scripts/load-env-to-secret.js"
-	},
-	"dependencies": {
-		"@aws-sdk/client-secrets-manager": "^3.777.0",
-		"@notionhq/client": "^2.3.0",
-		"axios": "^1.8.4",
-		"lodash-es": "^4.17.21"
-	}
+  "name": "notion-telegram-event-reminder",
+  "version": "1.0.0",
+  "description": "Notion-Telegram event reminder using Bun",
+  "author": {
+    "name": "Ehsan Seyedi"
+  },
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun run --watch index.ts",
+    "check": "bun run index.ts --dry-run"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.3.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "bun": "^1.0.0"
+  }
 }
