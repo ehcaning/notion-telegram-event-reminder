@@ -1,8 +1,3 @@
-/**
- * Configuration module for Notion-Telegram Event Reminder
- * Loads configuration from environment variables
- */
-
 import { logger } from './logger.ts';
 
 const requiredKeys = ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'NOTION_TOKEN', 'NOTION_DATABASE_ID'];
@@ -48,11 +43,7 @@ function validateConfig(config: Record<string, string | undefined>): Config {
   return validConfig;
 }
 
-/**
- * Load configuration from environment variables
- */
 function loadConfig(): Config {
-  // Support .env file loading in Bun (Bun automatically loads .env files)
   return validateConfig(process.env as Record<string, string | undefined>);
 }
 
