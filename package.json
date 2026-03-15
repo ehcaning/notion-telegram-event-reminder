@@ -13,7 +13,8 @@
     "check": "bun run index.ts --dry-run"
   },
   "dependencies": {
-    "@notionhq/client": "^2.3.0"
+    "@notionhq/client": "^2.3.0",
+    "croner": "^10.0.1"
   },
   "devDependencies": {},
   "engines": {

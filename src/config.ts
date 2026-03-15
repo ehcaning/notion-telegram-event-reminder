@@ -11,6 +11,8 @@ interface Config {
   NOTION_TOKEN: string;
   NOTION_DATABASE_ID: string;
   DEBUG?: boolean;
+  CRON?: string;
+  TIMEZONE?: string;
 }
 
 /**
@@ -31,6 +33,8 @@ function validateConfig(config: Record<string, string | undefined>): Config {
     NOTION_TOKEN: config.NOTION_TOKEN!,
     NOTION_DATABASE_ID: config.NOTION_DATABASE_ID!,
     DEBUG: config.DEBUG === 'true',
+    CRON: config.CRON,
+    TIMEZONE: config.TIMEZONE || 'UTC',
   };
 }
 

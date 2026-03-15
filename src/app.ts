@@ -35,10 +35,10 @@ async function processEvents(handler: NotionHandler): Promise<void> {
 }
 
 /**
- * Main function to process all Notion event handlers
+ * Core function to execute the event reminder once
+ * Fetches events from Notion and sends Telegram messages
  */
-export function run(): Promise<void[]> {
+export async function executeReminder(): Promise<void> {
   const handlers: NotionHandler[] = [new notion.Recurring(), new notion.Upcoming()];
-
-  return Promise.all(handlers.map(handler => processEvents(handler)));
+  await Promise.all(handlers.map(handler => processEvents(handler)));
 }
