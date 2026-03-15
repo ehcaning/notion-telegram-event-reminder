@@ -1,5 +1,6 @@
 import { sendMessageToTelegram } from './telegram.ts';
 import * as notion from './notion.ts';
+import { logger } from './logger.ts';
 
 interface NotionHandler {
   constructor: { name: string };
@@ -19,18 +20,15 @@ async function processEvents(handler: NotionHandler): Promise<void> {
     const filteredEvents = handler.filterEvents(events);
 
     if (filteredEvents.length === 0) {
-      console.log(`No events to process for ${handler.constructor.name}.`);
+      logger.debug(`No events to process for ${handler.constructor.name}.`);
       return;
     }
 
     const message = handler.getMessage(filteredEvents);
     await sendMessageToTelegram(message);
-    console.log(`Message sent for ${handler.constructor.name}.`);
+    logger.info(`Message sent for ${handler.constructor.name}.`);
   } catch (error) {
-    console.error(
-      `Error processing events for ${handler.constructor.name}:`,
-      error instanceof Error ? error.message : String(error),
-    );
+    logger.error({ error, handlerName: handler.constructor.name }, 'Error processing events');
   }
 }
 

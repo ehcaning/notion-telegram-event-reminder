@@ -1,4 +1,5 @@
 import config from './config.ts';
+import { logger } from './logger.ts';
 
 /**
  * Sends a message to a Telegram chat using Bun's native fetch API
@@ -9,12 +10,12 @@ import config from './config.ts';
  */
 export async function sendMessageToTelegram(message: string, options: Record<string, any> = {}): Promise<any> {
   if (!config.TELEGRAM_BOT_TOKEN || !config.TELEGRAM_CHAT_ID) {
-    console.error('Telegram bot token or chat ID is missing in the configuration.');
+    logger.error('Telegram bot token or chat ID is missing in the configuration.');
     return;
   }
 
   if (!message || typeof message !== 'string') {
-    console.error('Invalid message. Please provide a non-empty string.');
+    logger.error('Invalid message. Please provide a non-empty string.');
     return;
   }
 
@@ -41,11 +42,10 @@ export async function sendMessageToTelegram(message: string, options: Record<str
     }
 
     const data = await response.json();
-    console.log('Message sent successfully:', data);
+    logger.info({ messageId: data.result?.message_id }, 'Message sent to Telegram');
     return data;
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('Error sending message to Telegram:', errorMessage);
-    throw new Error(`Failed to send message: ${errorMessage}`);
+    logger.error({ error }, 'Error sending message to Telegram');
+    throw new Error(`Failed to send message: ${error instanceof Error ? error.message : String(error)}`);
   }
 }

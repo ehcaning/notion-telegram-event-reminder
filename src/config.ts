@@ -3,6 +3,8 @@
  * Loads configuration from environment variables
  */
 
+import { logger } from './logger.ts';
+
 const requiredKeys = ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'NOTION_TOKEN', 'NOTION_DATABASE_ID'];
 
 interface Config {
@@ -24,10 +26,11 @@ interface Config {
 function validateConfig(config: Record<string, string | undefined>): Config {
   const missingKeys = requiredKeys.filter(key => !config[key]);
   if (missingKeys.length > 0) {
+    logger.error({ missingKeys }, 'Missing required configuration keys');
     throw new Error(`Missing required configuration: ${missingKeys.join(', ')}`);
   }
 
-  return {
+  const validConfig = {
     TELEGRAM_BOT_TOKEN: config.TELEGRAM_BOT_TOKEN!,
     TELEGRAM_CHAT_ID: config.TELEGRAM_CHAT_ID!,
     NOTION_TOKEN: config.NOTION_TOKEN!,
@@ -36,6 +39,13 @@ function validateConfig(config: Record<string, string | undefined>): Config {
     CRON: config.CRON,
     TIMEZONE: config.TIMEZONE || 'UTC',
   };
+
+  logger.debug(
+    { debugMode: validConfig.DEBUG, timezone: validConfig.TIMEZONE, hasCron: !!validConfig.CRON },
+    'Configuration loaded successfully',
+  );
+
+  return validConfig;
 }
 
 /**

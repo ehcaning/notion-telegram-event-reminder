@@ -1,5 +1,6 @@
 import { Client, LogLevel } from '@notionhq/client';
 import config from './config.ts';
+import { logger } from './logger.ts';
 
 const notion = new Client({
   auth: config.NOTION_TOKEN,
@@ -45,7 +46,7 @@ class NotionEventBase {
       });
       return response as QueryResponse;
     } catch (error) {
-      console.error('Error fetching events:', error);
+      logger.error({ error }, 'Error fetching events from Notion database');
       return { results: [] };
     }
   }
