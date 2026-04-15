@@ -24,6 +24,7 @@ export async function sendMessageToTelegram(message: string, options: Record<str
     chat_id: config.TELEGRAM_CHAT_ID,
     text: message,
     parse_mode: options.parse_mode || 'Markdown',
+    message_thread_id: config.TELEGRAM_MESSAGE_THREAD_ID ?? undefined,
     ...options, // Allow additional options like `disable_notification`, `reply_to_message_id`, etc.
   };
 

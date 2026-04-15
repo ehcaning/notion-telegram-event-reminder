@@ -5,6 +5,7 @@ const requiredKeys = ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'NOTION_TOKEN', 
 interface Config {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
+  TELEGRAM_MESSAGE_THREAD_ID?: string;
   NOTION_TOKEN: string;
   NOTION_DATABASE_ID: string;
   DEBUG?: boolean;
@@ -28,6 +29,7 @@ function validateConfig(config: Record<string, string | undefined>): Config {
   const validConfig = {
     TELEGRAM_BOT_TOKEN: config.TELEGRAM_BOT_TOKEN!,
     TELEGRAM_CHAT_ID: config.TELEGRAM_CHAT_ID!,
+    TELEGRAM_MESSAGE_THREAD_ID: config.TELEGRAM_MESSAGE_THREAD_ID!,
     NOTION_TOKEN: config.NOTION_TOKEN!,
     NOTION_DATABASE_ID: config.NOTION_DATABASE_ID!,
     DEBUG: config.DEBUG === 'true',
